@@ -255,7 +255,8 @@ void VioManager::feed_measurement_simulation(double timestamp, const std::vector
 
 void VioManager::track_image_and_update(const ov_core::CameraData &message_const) {
     
-    std::cout << "img timestamp:" << message_const.timestamp;
+    int64_t t_us = message_const.timestamp * 1000 * 1000;
+    std::cout << "-> img timestamp(us):" << t_us << std::endl;
 
   // Start timing
   rT1 = boost::posix_time::microsec_clock::local_time();
