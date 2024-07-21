@@ -252,12 +252,22 @@ void VioManager::feed_measurement_simulation(double timestamp, const std::vector
   }
   do_feature_propagate_update(message);
 }
+//---------
 
+//-------------------
 void VioManager::track_image_and_update(const ov_core::CameraData &message_const) {
     
-    int64_t t_us = message_const.timestamp * 1000 * 1000;
-    std::cout << "-> img timestamp(us):" << t_us << std::endl;
-
+    using std::chrono::system_clock;
+ 
+    double t = message_const.timestamp;
+    uint64_t t_us = t * 1000 * 1000;
+    std::cout << "-> img timestamp(us):" << t_us ;
+    //--- time point of epoch
+    const auto tpe = std::chrono::time_point<std::chrono::system_clock>{};
+    auto dur = std::chrono::microseconds(t_us);
+    system_clock::time_point tp = tpe + dur;
+    std::time_t tt = system_clock::to_time_t(tp);
+    std::cout << ", @" << std::put_time(std::localtime(&tt), "%F %T") << std::endl;
   // Start timing
   rT1 = boost::posix_time::microsec_clock::local_time();
 
