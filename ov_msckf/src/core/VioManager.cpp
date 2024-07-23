@@ -261,7 +261,12 @@ void VioManager::track_image_and_update(const ov_core::CameraData &message_const
  
     double t = message_const.timestamp;
     uint64_t t_us = t * 1000 * 1000;
-    std::cout << "-> img timestamp(us):" << t_us ;
+    //----
+    auto& ids = message_const.sensor_ids;
+    int n = ids.size();
+    std::cout << "-> img msg @(us):" << t_us ;
+    std::stringstream ss;  for(auto& i : ids)  ss << i << ",";
+    std::cout << ", with ids:" << ss.str() << std::endl;
     //--- time point of epoch
     const auto tpe = std::chrono::time_point<std::chrono::system_clock>{};
     auto dur = std::chrono::microseconds(t_us);
@@ -277,7 +282,7 @@ void VioManager::track_image_and_update(const ov_core::CameraData &message_const
   for (size_t i = 0; i < message_const.sensor_ids.size() - 1; i++) {
     assert(message_const.sensor_ids.at(i) != message_const.sensor_ids.at(i + 1));
   }
-
+  //---
   // Downsample if we are downsampling
   ov_core::CameraData message = message_const;
   for (size_t i = 0; i < message.sensor_ids.size() && params.downsample_cameras; i++) {
