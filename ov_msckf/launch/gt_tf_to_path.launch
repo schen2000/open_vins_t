@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<launch>
+  <node name="tf_to_path" pkg="ov_msckf" type="gt_tf_to_path.py">
+    <param name="parent_frame_id" value="/world"/>
+    <param name="child_frame_id" value="vicon/firefly_sbx/firefly_sbx"/>
+    <param name="in_topic_name" value="vicon/firefly_sbx/firefly_sbx"/>
+    <param name="out_topic_name" value="/gt_vicon"/>
+    <param name="out_parent_frame_id" value="global"/>
+    <param name="append_rate" value="5"/>
+  </node>
+</launch>
